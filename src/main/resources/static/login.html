@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | DROP SKATE & STREET</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: { dark: '#0a0a0c', card: '#121216', border: '#22222a', neon: '#00ff88', cyan: '#00e5ff' }
+                    },
+                    fontFamily: { display: ['Syne', 'sans-serif'], sans: ['Inter', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-brand-dark text-gray-100 font-sans min-h-screen flex items-center justify-center p-4 selection:bg-brand-neon selection:text-black relative overflow-hidden">
+
+<!-- Background Glow -->
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-brand-neon/5 rounded-full blur-[120px] pointer-events-none"></div>
+
+<div class="w-full max-w-md bg-brand-card/80 backdrop-blur-xl border border-brand-border rounded-3xl p-8 relative z-10 shadow-2xl">
+
+    <!-- Logo -->
+    <div class="text-center mb-8">
+        <div class="w-14 h-14 bg-gradient-to-tr from-brand-neon to-brand-cyan rounded-xl flex items-center justify-center text-black font-display font-extrabold text-3xl transform -rotate-6 mx-auto mb-3">
+            D
+        </div>
+        <h1 class="font-display font-extrabold text-3xl tracking-tighter text-white uppercase">
+            DROP<span class="text-brand-neon">SKATE</span>
+        </h1>
+        <p class="text-xs text-gray-400 mt-1">Acesse sua conta ou cadastre-se</p>
+    </div>
+
+    <!-- Form Toggle -->
+    <div class="flex bg-brand-dark p-1 rounded-xl mb-6 border border-brand-border">
+        <button id="tabLogin" onclick="toggleForm('login')" class="flex-1 py-2 rounded-lg text-xs font-bold transition-all bg-brand-border text-white">Entrar</button>
+        <button id="tabRegister" onclick="toggleForm('register')" class="flex-1 py-2 rounded-lg text-xs font-bold transition-all text-gray-400 hover:text-white">Criar Conta</button>
+    </div>
+
+    <!-- Login Form -->
+    <form id="formLogin" onsubmit="handleLogin(event)" class="space-y-4">
+        <div>
+            <label class="block text-xs font-semibold text-gray-400 mb-1">E-mail</label>
+            <div class="relative">
+                <i class="fa-solid fa-envelope absolute left-3.5 top-3 text-gray-500 text-sm"></i>
+                <input type="email" id="loginEmail" required class="w-full bg-brand-dark border border-brand-border rounded-xl py-2.5 pl-10 pr-4 text-sm text-white focus:outline-none focus:border-brand-neon transition-colors" placeholder="seu@email.com">
+            </div>
+        </div>
+        <div>
+            <label class="block text-xs font-semibold text-gray-400 mb-1 flex justify-between">
+                Senha <a href="#" class="text-brand-neon hover:underline">Esqueceu?</a>
+            </label>
+            <div class="relative">
+                <i class="fa-solid fa-lock absolute left-3.5 top-3 text-gray-500 text-sm"></i>
+                <input type="password" id="loginPassword" required class="w-full bg-brand-dark border border-brand-border rounded-xl py-2.5 pl-10 pr-4 text-sm text-white focus:outline-none focus:border-brand-neon transition-colors" placeholder="••••••••">
+            </div>
+        </div>
+        <button type="submit" class="w-full py-3.5 mt-2 bg-brand-neon text-black font-extrabold text-sm uppercase rounded-xl hover:bg-brand-neon/90 transition-all neon-glow flex justify-center items-center gap-2">
+            ACESSAR <i class="fa-solid fa-arrow-right"></i>
+        </button>
+    </form>
+
+    <!-- Register Form (Hidden by default) -->
+    <form id="formRegister" onsubmit="handleRegister(event)" class="space-y-4 hidden">
+        <div>
+            <label class="block text-xs font-semibold text-gray-400 mb-1">Nome Completo</label>
+            <input type="text" id="regNome" required class="w-full bg-brand-dark border border-brand-border rounded-xl py-2.5 px-4 text-sm text-white focus:outline-none focus:border-brand-neon transition-colors" placeholder="Seu Nome">
+        </div>
+        <div>
+            <label class="block text-xs font-semibold text-gray-400 mb-1">E-mail</label>
+            <input type="email" id="regEmail" required class="w-full bg-brand-dark border border-brand-border rounded-xl py-2.5 px-4 text-sm text-white focus:outline-none focus:border-brand-neon transition-colors" placeholder="seu@email.com">
+        </div>
+        <div>
+            <label class="block text-xs font-semibold text-gray-400 mb-1">Senha</label>
+            <input type="password" id="regPassword" required class="w-full bg-brand-dark border border-brand-border rounded-xl py-2.5 px-4 text-sm text-white focus:outline-none focus:border-brand-neon transition-colors" placeholder="••••••••">
+        </div>
+        <button type="submit" class="w-full py-3.5 mt-2 bg-brand-cyan text-black font-extrabold text-sm uppercase rounded-xl hover:bg-brand-cyan/90 transition-all neon-glow flex justify-center items-center gap-2">
+            CRIAR CONTA <i class="fa-solid fa-user-plus"></i>
+        </button>
+    </form>
+</div>
+
+<script>
+    function toggleForm(type) {
+        const fLogin = document.getElementById('formLogin');
+        const fReg = document.getElementById('formRegister');
+        const tLogin = document.getElementById('tabLogin');
+        const tReg = document.getElementById('tabRegister');
+
+        if(type === 'login') {
+            fLogin.classList.remove('hidden'); fReg.classList.add('hidden');
+            tLogin.className = "flex-1 py-2 rounded-lg text-xs font-bold transition-all bg-brand-border text-white";
+            tReg.className = "flex-1 py-2 rounded-lg text-xs font-bold transition-all text-gray-400 hover:text-white";
+        } else {
+            fReg.classList.remove('hidden'); fLogin.classList.add('hidden');
+            tReg.className = "flex-1 py-2 rounded-lg text-xs font-bold transition-all bg-brand-border text-white";
+            tLogin.className = "flex-1 py-2 rounded-lg text-xs font-bold transition-all text-gray-400 hover:text-white";
+        }
+    }
+
+    async function handleLogin(e) {
+        e.preventDefault();
+        const credenciais = {
+            email: document.getElementById('loginEmail').value,
+            senha: document.getElementById('loginPassword').value
+        };
+
+        try {
+            const resposta = await fetch('/api/usuarios/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(credenciais)
+            });
+
+            if (resposta.ok) {
+                const usuario = await resposta.json();
+                localStorage.setItem('drop_user_name', usuario.nomeCompleto);
+                window.location.href = 'index.html';
+            } else {
+                alert("E-mail ou senha inválidos, ou utilizador não cadastrado!");
+            }
+        } catch (erro) {
+            console.error("Erro na requisição:", erro);
+            alert("Erro de comunicação com o servidor.");
+        }
+    }
+
+    async function handleRegister(e) {
+        e.preventDefault();
+        const usuario = {
+            nomeCompleto: document.getElementById('regNome').value,
+            email: document.getElementById('regEmail').value,
+            senha: document.getElementById('regPassword').value
+        };
+
+        try {
+            const resposta = await fetch('/api/usuarios/cadastrar', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(usuario)
+            });
+
+            if (resposta.ok) {
+                alert("Cadastro realizado e salvo no Oracle DB com sucesso!");
+                toggleForm('login');
+            } else {
+                alert("Erro ao realizar o cadastro. Verifique se o e-mail já existe.");
+            }
+        } catch (erro) {
+            console.error("Erro na requisição:", erro);
+            alert("Erro de comunicação com o servidor.");
+        }
+    }
+</script>
+</body>
+</html>

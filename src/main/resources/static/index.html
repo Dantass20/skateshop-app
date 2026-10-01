@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DROP SKATE & STREET | Loja Oficial</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { brand: { dark: '#0a0a0c', card: '#121216', border: '#22222a', neon: '#00ff88', cyan: '#00e5ff', accent: '#ff0055' } },
+                    fontFamily: { display: ['Syne', 'sans-serif'], sans: ['Inter', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-brand-dark text-gray-100 font-sans min-h-screen flex flex-col antialiased selection:bg-brand-neon selection:text-black">
+
+<header class="sticky top-0 z-40 bg-brand-dark/95 border-b border-brand-border backdrop-blur-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-20">
+        <!-- Logo -->
+        <a href="index.html" class="flex items-center gap-2 group">
+            <div class="w-10 h-10 bg-gradient-to-tr from-brand-neon to-brand-cyan rounded-lg flex items-center justify-center text-black font-display font-extrabold text-2xl transform -rotate-6 group-hover:rotate-0 transition-transform">D</div>
+            <span class="font-display font-extrabold text-2xl tracking-tighter text-white">DROP<span class="text-brand-neon">SKATE</span></span>
+        </a>
+
+        <!-- Search -->
+        <div class="hidden md:flex flex-1 max-w-md mx-8 relative">
+            <input type="text" id="searchInput" placeholder="Pesquisar produtos..." class="w-full bg-brand-card border border-brand-border rounded-full py-2.5 pl-10 pr-4 text-sm focus:outline-none focus:border-brand-neon text-white">
+            <i class="fa-solid fa-search absolute left-3.5 top-3.5 text-gray-500 text-sm"></i>
+        </div>
+
+        <!-- User & Cart Controls -->
+        <div class="flex items-center gap-4">
+            <div id="authArea" class="flex items-center gap-3">
+                <!-- Preenchido via JS (Login ou Nome do Utilizador) -->
+            </div>
+
+            <button onclick="openCart()" class="relative p-2.5 bg-brand-card border border-brand-border rounded-xl text-gray-200 hover:border-brand-neon transition-colors">
+                <i class="fa-solid fa-cart-shopping text-lg"></i>
+                <span id="cartBadge" class="absolute -top-2 -right-2 bg-brand-neon text-black font-bold text-xs w-5 h-5 rounded-full flex items-center justify-center">0</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Categorias -->
+    <div class="border-t border-brand-border/60 bg-brand-card/50">
+        <div class="max-w-7xl mx-auto px-4 overflow-x-auto scrollbar-none flex items-center gap-2 py-2 text-xs font-semibold uppercase tracking-wider text-gray-400">
+            <button onclick="filterCategory('all')" class="cat-btn bg-brand-neon text-black px-4 py-1.5 rounded-md" data-cat="all">Todos</button>
+            <button onclick="filterCategory('decks')" class="cat-btn hover:text-white px-4 py-1.5 rounded-md" data-cat="decks">Shapes</button>
+            <button onclick="filterCategory('trucks')" class="cat-btn hover:text-white px-4 py-1.5 rounded-md" data-cat="trucks">Trucks</button>
+            <button onclick="filterCategory('wheels')" class="cat-btn hover:text-white px-4 py-1.5 rounded-md" data-cat="wheels">Rodas/Rolamentos</button>
+            <button onclick="filterCategory('shoes')" class="cat-btn hover:text-white px-4 py-1.5 rounded-md" data-cat="shoes">Tênis Skate</button>
+            <button onclick="filterCategory('apparel')" class="cat-btn hover:text-white px-4 py-1.5 rounded-md" data-cat="apparel">Vestuário</button>
+        </div>
+    </div>
+</header>
+
+<main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-8">
+    <!-- Banner -->
+    <section class="relative rounded-2xl overflow-hidden border border-brand-border bg-gradient-to-r from-brand-card to-black p-8 md:p-12 min-h-[300px] flex items-center">
+        <div class="relative z-10 max-w-xl space-y-4">
+            <span class="px-3 py-1 bg-brand-neon/10 border border-brand-neon/30 text-brand-neon rounded-full text-xs font-bold uppercase">Nova Coleção</span>
+            <h1 class="font-display text-4xl sm:text-5xl font-extrabold uppercase text-white leading-tight">DOMINE AS RUAS <br><span class="text-brand-cyan">SEM LIMITES</span></h1>
+            <button onclick="filterCategory('decks')" class="px-6 py-3 bg-brand-neon text-black font-extrabold text-xs uppercase rounded-xl hover:bg-brand-neon/90 neon-glow">Ver Shapes</button>
+        </div>
+    </section>
+
+    <!-- Filtros e Grid -->
+    <section class="flex justify-between items-center border-b border-brand-border pb-4">
+        <h2 id="catalogTitle" class="font-display text-2xl font-bold uppercase text-white">Catálogo</h2>
+        <select id="sortSelect" onchange="applyFiltersAndSort()" class="bg-brand-card border border-brand-border text-xs rounded-lg px-3 py-2 text-white">
+            <option value="relevance">Relevância</option>
+            <option value="price_asc">Menor Preço</option>
+            <option value="price_desc">Maior Preço</option>
+        </select>
+    </section>
+
+    <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" id="productGrid"></section>
+</main>
+
+<!-- Modais: Carrinho -->
+<div id="cartDrawer" class="fixed inset-0 z-50 pointer-events-none transition-all duration-300">
+    <div id="cartBackdrop" onclick="closeCart()" class="absolute inset-0 bg-black/70 opacity-0 transition-opacity"></div>
+    <div id="cartContent" class="absolute right-0 top-0 bottom-0 w-full max-w-md bg-brand-card border-l border-brand-border flex flex-col transform translate-x-full transition-transform pointer-events-auto">
+        <div class="p-5 border-b border-brand-border flex justify-between"><h3 class="font-display font-bold text-lg text-white">CARRINHO</h3><button onclick="closeCart()" class="text-gray-400"><i class="fa-solid fa-xmark"></i></button></div>
+        <div id="cartItemsList" class="flex-1 overflow-y-auto p-5 space-y-4"></div>
+        <div class="p-5 border-t border-brand-border">
+            <div class="flex justify-between font-bold text-white mb-4"><span>TOTAL</span><span id="cartTotal" class="text-brand-neon">R$ 0,00</span></div>
+            <button onclick="openCheckoutModal()" class="w-full py-3 bg-brand-neon text-black font-bold uppercase rounded-xl">Finalizar Compra</button>
+        </div>
+    </div>
+</div>
+
+<!-- Container do Toast -->
+<div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2"></div>
+
+<script src="js/app.js"></script>
+<script>
+    // Lógica corrigida para verificar o nome do utilizador logado no Oracle
+    document.addEventListener('DOMContentLoaded', () => {
+        const userName = localStorage.getItem('drop_user_name');
+        const authArea = document.getElementById('authArea');
+
+        if (userName) {
+            authArea.innerHTML = `
+                <span class="text-xs text-gray-400">Olá, <b class="text-white">${userName}</b></span>
+                <button onclick="logout()" class="text-xs text-brand-accent font-bold ml-3">Sair</button>
+            `;
+        } else {
+            authArea.innerHTML = `<a href="login.html" class="px-4 py-2 bg-brand-border text-white text-xs font-bold rounded-lg hover:bg-gray-700">Entrar / Cadastrar</a>`;
+        }
+    });
+</script>
+</body>
+</html>

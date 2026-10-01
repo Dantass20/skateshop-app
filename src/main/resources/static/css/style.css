@@ -1,0 +1,38 @@
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: #0a0a0c;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #22222a;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #00ff88;
+}
+
+/* Neon Glow Effects */
+.neon-glow {
+    box-shadow: 0 0 20px rgba(0, 255, 136, 0.25);
+}
+
+.neon-text-glow {
+    text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+}
+
+.gradient-text {
+    background: linear-gradient(135deg, #00ff88 0%, #00e5ff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.glass-panel {
+    background: rgba(18, 18, 22, 0.85);
+    backdrop-filter: blur(12px);
+}
